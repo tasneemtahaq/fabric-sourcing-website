@@ -9,19 +9,23 @@ export default function TrustSection() {
 
         <div className="grid md:grid-cols-4 gap-6">
 
-          <div className="bg-white p-6 rounded-xl shadow">
+          <div className="bg-white p-6 rounded-xl shadow  transition-all duration-500
+         hover:-translate-y-4 hover:scale-105 hover:shadow-2xl">
             <h3 className="font-bold">Quality Assurance</h3>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow">
+          <div className="bg-white p-6 rounded-xl shadow  transition-all duration-500
+         hover:-translate-y-4 hover:scale-105 hover:shadow-2xl">
             <h3 className="font-bold">Competitive Pricing</h3>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow">
+          <div className="bg-white p-6 rounded-xl shadow  transition-all duration-500
+         hover:-translate-y-4 hover:scale-105 hover:shadow-2xl">
             <h3 className="font-bold">Export Support</h3>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow">
+          <div className="bg-white p-6 rounded-xl shadow  transition-all duration-500
+         hover:-translate-y-4 hover:scale-105 hover:shadow-2xl">
             <h3 className="font-bold">Fast Sampling</h3>
           </div>
 

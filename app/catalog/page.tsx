@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const fabrics = [
   {
@@ -46,93 +47,117 @@ export default function CatalogPage() {
   });
 
   return (
-    <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-4xl font-bold text-center mb-4">
-        Fabric Catalog
-      </h1>
+    <main className="min-h-screen bg-[#0B0F19] text-white relative overflow-hidden">
 
-      <p className="text-center text-gray-600 mb-8">
-        Browse our polyester, sportswear, and uniform fabrics.
-      </p>
+      {/* Background Glow */}
+      <div className="absolute top-20 left-10 w-96 h-96 bg-cyan-500/20 blur-[140px] rounded-full" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/20 blur-[140px] rounded-full" />
 
-      {/* Search Box */}
-      <div className="mb-6">
-        <input
-          type="text"
-          placeholder="Search fabrics..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full border rounded-lg p-3"
-        />
-      </div>
+      <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
 
-      {/* Filter Buttons */}
-      <div className="flex flex-wrap justify-center gap-3 mb-10">
-        <button
-          onClick={() => setCategory("all")}
-          className="px-4 py-2 border rounded-lg hover:bg-slate-900 hover:text-white"
+        {/* Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-5xl md:text-6xl font-bold text-center"
         >
-          All Fabrics
-        </button>
+          Premium Fabric Catalog
+        </motion.h1>
 
-        <button
-          onClick={() => setCategory("uniform")}
-          className="px-4 py-2 border rounded-lg hover:bg-slate-900 hover:text-white"
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-center text-slate-400 mt-5 text-lg"
         >
-          Uniform Fabrics
-        </button>
+          Explore performance fabrics sourced directly from trusted mills.
+        </motion.p>
 
-        <button
-          onClick={() => setCategory("sportswear")}
-          className="px-4 py-2 border rounded-lg hover:bg-slate-900 hover:text-white"
-        >
-          Sportswear
-        </button>
+        {/* Search */}
+        <div className="mt-10">
+          <input
+            type="text"
+            placeholder="Search fabrics..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 outline-none focus:border-cyan-400"
+          />
+        </div>
 
-        <button
-          onClick={() => setCategory("workwear")}
-          className="px-4 py-2 border rounded-lg hover:bg-slate-900 hover:text-white"
-        >
-          Workwear
-        </button>
-      </div>
+        {/* Filters */}
+        <div className="flex flex-wrap justify-center gap-4 mt-8">
 
-      {/* Catalog Grid */}
-      <div className="grid md:grid-cols-3 gap-6">
-        {filteredFabrics.map((fabric) => (
-          <Link
-            key={fabric.slug}
-            href={`/catalog/${fabric.slug}`}
-            className="border rounded-xl overflow-hidden shadow hover:shadow-xl transition-all duration-300 block bg-white hover:-translate-y-1"
-          >
-            <div className="relative w-full h-56">
-              <Image
-                src={fabric.image}
-                alt={fabric.name}
-                fill
-                className="object-cover"
-              />
-            </div>
+          {["all", "uniform", "sportswear", "workwear"].map((item) => (
+            <button
+              key={item}
+              onClick={() => setCategory(item)}
+              className={`px-6 py-3 rounded-full transition-all duration-300 border border-white/10 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30 ${
+                category === item
+                  ? "bg-cyan-500 text-white"
+                  : "bg-white/5 backdrop-blur-xl"
+              }`}
+            >
+              {item.charAt(0).toUpperCase() + item.slice(1)}
+            </button>
+          ))}
+        </div>
 
-            <div className="p-5">
-              <h2 className="font-bold text-xl mb-2">
-                {fabric.name}
-              </h2>
+        {/* Cards */}
+        <div className="grid md:grid-cols-3 gap-8 mt-16">
 
-              <p className="text-gray-600">
-                GSM: {fabric.gsm}
-              </p>
+          {filteredFabrics.map((fabric, index) => (
+            <motion.div
+              key={fabric.slug}
+              initial={{ opacity: 0, y: 80 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.15 }}
+            >
+              <Link
+                href={`/catalog/${fabric.slug}`}
+                className="group block rounded-3xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-cyan-500/20"
+              >
 
-              <p className="text-sm text-gray-500 mt-1">
-                {fabric.composition}
-              </p>
+                {/* Image */}
+                <div className="relative h-72 overflow-hidden">
+                  <Image
+                    src={fabric.image}
+                    alt={fabric.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
 
-              <button className="mt-4 w-full bg-slate-900 text-white py-2 rounded-lg">
-                View Details
-              </button>
-            </div>
-          </Link>
-        ))}
+                  <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent" />
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+
+                  <h2 className="text-2xl font-bold">
+                    {fabric.name}
+                  </h2>
+
+                  <div className="mt-4 flex justify-between text-slate-300">
+                    <span>GSM: {fabric.gsm}</span>
+                    <span className="text-cyan-400">{fabric.category}</span>
+                  </div>
+
+                  <p className="mt-3 text-slate-400">
+                    {fabric.composition}
+                  </p>
+
+                  <button className="mt-6 w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-600 transition-all duration-300 hover:scale-105">
+                    View Details
+                  </button>
+
+                </div>
+
+              </Link>
+            </motion.div>
+          ))}
+
+        </div>
+
       </div>
     </main>
   );

@@ -9,7 +9,8 @@ export default function WhyChooseUs() {
 
         <div className="grid md:grid-cols-3 gap-8">
 
-          <div className="bg-white p-6 rounded-xl shadow">
+          <div className="bg-white p-6 rounded-xl shadow  transition-all duration-500
+         hover:-translate-y-4 hover:scale-105 hover:shadow-2xl">
             <h3 className="font-bold text-xl mb-3">
               Reliable Suppliers
             </h3>
@@ -18,7 +19,8 @@ export default function WhyChooseUs() {
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow">
+          <div className="bg-white p-6 rounded-xl shadow  transition-all duration-500
+         hover:-translate-y-4 hover:scale-105 hover:shadow-2xl">
             <h3 className="font-bold text-xl mb-3">
               Quality Inspection
             </h3>
@@ -27,7 +29,8 @@ export default function WhyChooseUs() {
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow">
+          <div className="bg-white p-6 rounded-xl shadow  transition-all duration-500
+         hover:-translate-y-4 hover:scale-105 hover:shadow-2xl">
             <h3 className="font-bold text-xl mb-3">
               Global Export Support
             </h3>
