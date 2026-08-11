@@ -2,61 +2,110 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import TwinJetScene from "./TwinJetScene";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen bg-[#0B0F19] overflow-hidden flex items-center">
+    <section className="relative min-h-screen overflow-hidden bg-[#090807] text-white">
+      {/* Soft luxury background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[-15%] top-[10%] h-125 w-125 rounded-full bg-[#B89B68]/8 blur-[160px]" />
 
-      {/* Background Glow 1 */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/20 blur-[120px] rounded-full" />
+        <div className="absolute right-[-10%] bottom-[5%] h-125 w-125 rounded-full bg-[#A97878]/6 blur-[170px]" />
 
-      {/* Background Glow 2 */}
-      <div className="absolute bottom-20 right-10 w-72 h-72 bg-blue-500/20 blur-[120px] rounded-full" />
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-
-        <motion.h1
-          initial={{ opacity: 0, y: 80 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-5xl md:text-7xl font-bold text-white leading-tight"
-        >
-          Connecting Global Buyers
-          <br />
-          With Pakistan&apos;s Leading
-          <br />
-          Fabric Manufacturers
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-8 text-slate-300 text-xl max-w-2xl"
-        >
-          Polyester • Uniform • Sportswear • Workwear Fabrics
-        </motion.p>
-
-        <div className="mt-10 flex flex-wrap gap-4">
-
-          <Link
-            href="/quote"
-            className="bg-cyan-500 hover:bg-cyan-600 px-8 py-4 rounded-xl text-white font-semibold transition-all
-       duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/40">
-            Request Quote
-          </Link>
-
-          <Link
-            href="/catalog"
-           className="border border-white/20 px-8 py-4 rounded-xl
-        text-white transition-all duration-300 hover:bg-white/10 hover:scale-105">
-            View Catalog
-          </Link>
-
-        </div>
-
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#090807_85%)]" />
       </div>
 
+      <div className="relative z-10 mx-auto grid min-h-screen max-w-375 items-center px-6 py-24 lg:grid-cols-[0.8fr_1.2fr] lg:px-12">
+        
+        {/* LEFT */}
+        <div className="relative z-20 max-w-2xl">
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-7 flex items-center gap-3"
+          >
+            <span className="h-px w-10 bg-[#4b73df]" />
+
+            <span className="text-xs font-medium uppercase tracking-[0.28em] text-[#4b73df]">
+              TwinJet Technologies
+            </span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="text-[clamp(3.5rem,7vw,7rem)] font-medium leading-[0.92] tracking-[-0.055em]"
+          >
+            Your business.
+
+            <br />
+
+            <span className="text-[#4b73df]">
+              Ready for takeoff?
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.8 }}
+            className="mt-8 max-w-xl text-base leading-7 text-white sm:text-lg"
+          >
+            We create powerful digital experiences that help ambitious
+            businesses build their presence, reach customers and grow
+            globally.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, duration: 0.8 }}
+            className="mt-9 flex flex-wrap gap-4"
+          >
+            <Link
+              href="/contact"
+              className="group flex items-center gap-3 rounded-full bg-[#FFFFFF] px-7 py-4 text-sm font-semibold text-[#11100D] transition duration-300 hover:bg-[#1913c6]"
+            >
+              Start Your Journey
+
+              <ArrowUpRight
+                size={17}
+                className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+              />
+            </Link>
+
+            <Link
+              href="/services"
+              className="rounded-full border border-white px-7 py-4 text-sm font-medium text-white transition duration-300 hover:border-[#1913c6]/50 hover:text-[#1913c6]"
+            >
+              Explore Services
+            </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 1 }}
+            className="mt-12 flex items-center gap-8 text-xs uppercase tracking-[0.2em] text-white/35"
+          >
+            <span>Websites</span>
+            <span>•</span>
+            <span>E-Commerce</span>
+            <span>•</span>
+            <span>Growth</span>
+          </motion.div>
+        </div>
+
+        {/* 3D SCENE */}
+        <div className="relative h-150 w-full lg:h-190">
+          <TwinJetScene />
+        </div>
+      </div>
     </section>
   );
 }

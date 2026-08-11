@@ -4,7 +4,7 @@ export default function TrustSection() {
       <div className="max-w-6xl mx-auto px-6 text-center">
 
         <h2 className="text-4xl font-bold mb-10">
-          Why International Buyers Choose Us
+          Why Choose Us
         </h2>
 
         <div className="grid md:grid-cols-4 gap-6">
@@ -21,12 +21,12 @@ export default function TrustSection() {
 
           <div className="bg-white p-6 rounded-xl shadow  transition-all duration-500
          hover:-translate-y-4 hover:scale-105 hover:shadow-2xl">
-            <h3 className="font-bold">Export Support</h3>
+            <h3 className="font-bold">Your Ideas to Reality</h3>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow  transition-all duration-500
          hover:-translate-y-4 hover:scale-105 hover:shadow-2xl">
-            <h3 className="font-bold">Fast Sampling</h3>
+            <h3 className="font-bold">Flexible Packages</h3>
           </div>
 
         </div>

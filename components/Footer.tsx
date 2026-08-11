@@ -6,13 +6,12 @@ export default function Footer() {
 
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-bold tracking-widest">
-            MBN SOURCING
+          <h2 className="text-lg text-blue-500 font-bold tracking-widest">
+            TwinJet Technologies
           </h2>
 
           <p className="text-slate-400 mt-4 leading-relaxed">
-            Your trusted fabric sourcing partner from Pakistan,
-            connecting global buyers with verified textile mills.
+            Your trusted Digital Partner for B2B Websites, Ecommerce Stores, Catalogue Websites, and Food Delivery Platforms. We help businesses grow globally with our expertise.
           </p>
         </div>
 
@@ -22,23 +21,22 @@ export default function Footer() {
 
           <ul className="space-y-3 text-slate-400">
             <li className="hover:text-cyan-400 transition">Home</li>
-            <li className="hover:text-cyan-400 transition">Catalog</li>
+            <li className="hover:text-cyan-400 transition">Packages</li>
             <li className="hover:text-cyan-400 transition">About</li>
             <li className="hover:text-cyan-400 transition">Contact</li>
             <li className="hover:text-cyan-400 transition">Request Quote</li>
           </ul>
         </div>
 
-        {/* Fabric Types */}
+        {/* Services */}
         <div>
           <h3 className="text-lg font-semibold mb-4">Fabric Types</h3>
 
           <ul className="space-y-3 text-slate-400">
-            <li>Uniform Fabrics</li>
-            <li>Sportswear Fabrics</li>
-            <li>Workwear Fabrics</li>
-            <li>Sublimation Fabrics</li>
-            <li>Poly Cotton Blends</li>
+            <li>B2B Websites</li>
+            <li>Ecommerce Stores</li>
+            <li>Catalogue Websites</li>
+            <li>Food Delivery Platforms</li>
           </ul>
         </div>
 
@@ -50,12 +48,10 @@ export default function Footer() {
             Karachi, Pakistan
           </p>
 
-          <p className="text-slate-400 mt-2">
-            WhatsApp: +92 300 1234567
-          </p>
+         
 
           <p className="text-slate-400 mt-2">
-            Email: info@mbnsourcing.com
+            Email: info@gmail.com
           </p>
         </div>
 
@@ -63,7 +59,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10 py-6 text-center text-slate-500 text-sm">
-        © {new Date().getFullYear()} MBN Sourcing. All rights reserved.
+        © {new Date().getFullYear()} TwinJet Technologies. All rights reserved.
       </div>
 
     </footer>

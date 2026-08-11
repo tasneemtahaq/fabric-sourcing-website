@@ -6,27 +6,27 @@ export default function Stats() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
 
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl
-       transition-all duration-500 hover:-translate-y-3 hover:border-cyan-400 hover:shadow-xl hover:shadow-cyan-500/20">
-            <h2 className="text-white text-4xl font-bold">100+</h2>
-            <p className="text-white">Suppliers</p>
+       transition-all duration-500 hover:-translate-y-3 hover:border-blue-700 hover:shadow-xl hover:shadow-cyan-500/20">
+           
+            <p className="text-white">B2B<br></br> Websites</p>
           </div>
 
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl
-       transition-all duration-500 hover:-translate-y-3 hover:border-cyan-400 hover:shadow-xl hover:shadow-cyan-500/20">
-            <h2 className="text-white text-4xl font-bold">500+</h2>
-            <p className="text-white">Fabric Types</p>
+       transition-all duration-500 hover:-translate-y-3 hover:border-blue-700 hover:shadow-xl hover:shadow-cyan-500/20">
+            
+            <p className="text-white">Ecommerce Stores</p>
           </div>
 
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl
-       transition-all duration-500 hover:-translate-y-3 hover:border-cyan-400 hover:shadow-xl hover:shadow-cyan-500/20">
-            <h2 className="text-white text-4xl font-bold">20+</h2>
-            <p className="text-white">Countries</p>
+       transition-all duration-500 hover:-translate-y-3 hover:border-blue-700 hover:shadow-xl hover:shadow-cyan-500/20">
+            
+            <p className="text-white">Catalogue Websites</p>
           </div>
 
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl
-       transition-all duration-500 hover:-translate-y-3 hover:border-cyan-400 hover:shadow-xl hover:shadow-cyan-500/20">
-            <h2 className="text-white text-4xl font-bold">10+</h2>
-            <p className="text-white">Years Experience</p>
+       transition-all duration-500 hover:-translate-y-3 hover:border-blue-700 hover:shadow-xl hover:shadow-cyan-500/20">
+            
+            <p className="text-white">Food Delivery Websites</p>
           </div>
 
         </div>
