@@ -5,30 +5,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-const fabrics = [
+const websites = [
   {
-    name: "PV 80/20 Uniform Fabric",
-    gsm: 220,
-    image: "/fabrics/pv8020.jpg",
-    composition: "80% Polyester 20% Viscose",
-    slug: "pv-80-20",
-    category: "uniform",
+    name: "B2B Website",
+    category: "b2b",
+    image: "/images/111.jpg",
+    Url: "https://www.fabricsourcing.com/",
+    slug: "b2b-website",
+  
   },
   {
-    name: "Micro Interlock",
-    gsm: 160,
-    image: "/fabrics/interlock.jpg",
-    composition: "100% Polyester",
-    slug: "interlock",
-    category: "sportswear",
+    name: "Ecommerce Website",
+    category: "ecommerce",
+    image: "/images/222.jpg",
+    Url: "https://www.menodoradigitals.online/",
+    slug: "ecommerce-website",
   },
   {
-    name: "Polyester Denim",
-    gsm: 320,
-    image: "/fabrics/denim.jpg",
-    composition: "Poly Cotton Blend",
-    slug: "denim",
-    category: "workwear",
+    name: "Food Delivery Website",
+    category: "food delivery",
+    image: "/images/333.jpg",
+    Url: "www.mamasoups.net",
+    slug: "food-delivery-website",
+    
   },
 ];
 
@@ -36,12 +35,12 @@ export default function CatalogPage() {
   const [category, setCategory] = useState("all");
   const [search, setSearch] = useState("");
 
-  const filteredFabrics = fabrics.filter((fabric) => {
+  const filteredWebsites = websites.filter((website) => {
     const matchesCategory =
-      category === "all" || fabric.category === category;
+      category === "all" || website.category === category;
 
     const matchesSearch =
-      fabric.name.toLowerCase().includes(search.toLowerCase());
+      website.name.toLowerCase().includes(search.toLowerCase());
 
     return matchesCategory && matchesSearch;
   });
@@ -61,7 +60,7 @@ export default function CatalogPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-5xl md:text-6xl font-bold text-center"
         >
-          Premium Fabric Catalog
+          Website Catalog
         </motion.h1>
 
         {/* Subtitle */}
@@ -71,7 +70,7 @@ export default function CatalogPage() {
           transition={{ delay: 0.2 }}
           className="text-center text-slate-400 mt-5 text-lg"
         >
-          Explore performance fabrics sourced directly from trusted mills.
+          Scalable Website to Grow your Online Business Presence. Explore our collection of websites designed to help you succeed online.
         </motion.p>
 
         {/* Search */}
@@ -106,23 +105,23 @@ export default function CatalogPage() {
         {/* Cards */}
         <div className="grid md:grid-cols-3 gap-8 mt-16">
 
-          {filteredFabrics.map((fabric, index) => (
+          {filteredWebsites.map((website, index) => (
             <motion.div
-              key={fabric.slug}
+              key={website.slug}
               initial={{ opacity: 0, y: 80 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15 }}
             >
               <Link
-                href={`/catalog/${fabric.slug}`}
+                href={`/catalog/${website.slug}`}
                 className="group block rounded-3xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-cyan-500/20"
               >
 
                 {/* Image */}
                 <div className="relative h-72 overflow-hidden">
                   <Image
-                    src={fabric.image}
-                    alt={fabric.name}
+                    src={website.image}
+                    alt={website.name}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
@@ -134,17 +133,15 @@ export default function CatalogPage() {
                 <div className="p-6">
 
                   <h2 className="text-2xl font-bold">
-                    {fabric.name}
+                    {website.name}
                   </h2>
 
                   <div className="mt-4 flex justify-between text-slate-300">
-                    <span>GSM: {fabric.gsm}</span>
-                    <span className="text-cyan-400">{fabric.category}</span>
+                    <span>Url: {website.Url}</span>
+                    <span className="text-cyan-400">{website.category}</span>
                   </div>
 
-                  <p className="mt-3 text-slate-400">
-                    {fabric.composition}
-                  </p>
+                 
 
                   <button className="mt-6 w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-600 transition-all duration-300 hover:scale-105">
                     View Details

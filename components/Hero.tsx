@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -18,15 +19,15 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto grid min-h-screen max-w-375 items-center px-6 py-24 lg:grid-cols-[0.8fr_1.2fr] lg:px-12">
-        
+
         {/* LEFT */}
         <div className="relative z-20 max-w-2xl">
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-7 flex items-center gap-3"
+            className="mb-6 flex items-center gap-3"
           >
             <span className="h-px w-10 bg-[#4b73df]" />
 
@@ -39,14 +40,14 @@ export default function Hero() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="text-[clamp(3.5rem,7vw,7rem)] font-medium leading-[0.92] tracking-[-0.055em]"
+            className="text-[clamp(2.8rem,5vw,5rem)] font-medium leading-[0.95] tracking-[-0.045em]"
           >
-            Your business.
+            Do You Want to Grow
 
             <br />
 
             <span className="text-[#4b73df]">
-              Ready for takeoff?
+              Your Business ONLINE?
             </span>
           </motion.h1>
 
@@ -54,7 +55,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.8 }}
-            className="mt-8 max-w-xl text-base leading-7 text-white sm:text-lg"
+            className="mt-6 max-w-lg text-sm leading-6 text-white sm:text-base"
           >
             We create powerful digital experiences that help ambitious
             businesses build their presence, reach customers and grow
@@ -65,11 +66,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.8 }}
-            className="mt-9 flex flex-wrap gap-4"
+            className="mt-7 flex flex-wrap gap-3"
           >
             <Link
               href="/contact"
-              className="group flex items-center gap-3 rounded-full bg-[#FFFFFF] px-7 py-4 text-sm font-semibold text-[#11100D] transition duration-300 hover:bg-[#1913c6]"
+              className="group flex items-center gap-3 rounded-full bg-[#FFFFFF] px-6 py-3.5 text-sm font-semibold text-[#11100D] transition duration-300 hover:bg-[#1913c6]"
             >
               Start Your Journey
 
@@ -81,7 +82,7 @@ export default function Hero() {
 
             <Link
               href="/services"
-              className="rounded-full border border-white px-7 py-4 text-sm font-medium text-white transition duration-300 hover:border-[#1913c6]/50 hover:text-[#1913c6]"
+              className="rounded-full border border-white px-6 py-3.5 text-sm font-medium text-white transition duration-300 hover:border-[#1913c6]/50 hover:text-[#1913c6]"
             >
               Explore Services
             </Link>
@@ -91,7 +92,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="mt-12 flex items-center gap-8 text-xs uppercase tracking-[0.2em] text-white/35"
+            className="mt-10 flex items-center gap-6 text-[10px] uppercase tracking-[0.2em] text-white/35"
           >
             <span>Websites</span>
             <span>•</span>
@@ -109,3 +110,4 @@ export default function Hero() {
     </section>
   );
 }
+
