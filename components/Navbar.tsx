@@ -1,46 +1,148 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu, X, ArrowUpRight, Code2 } from "lucide-react";
+
+const navLinks = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/catalog" },
+  { label: "Contact", href: "/contact" },
+];
+
+const ctaClass =
+  "group inline-flex items-center gap-2 rounded-full bg-linear-to-r from-cyan-400 via-sky-500 to-purple-500 bg-[length:200%_100%] bg-left px-5 py-3 text-sm font-semibold text-white shadow-[0_0_24px_rgba(56,189,248,0.45)] transition-all duration-500 hover:-translate-y-0.5 hover:bg-right hover:shadow-[0_0_34px_rgba(168,85,247,0.6)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Transparent only over the cinematic hero (home page, top of page).
+  const solid = scrolled || open || pathname !== "/";
+
   return (
-    <nav className="sticky top-0 z-50 bg-blue-900/70 backdrop-blur-xl border-b border-white/10 text-white p-4">
-      <div className="max-w-6xl mx-auto flex justify-between">
-        <h1 className="font-bold text-2xl tracking-widest">TwinJet Technologies</h1>
+    <nav
+      className={`sticky top-0 z-50 border-b text-white transition-all duration-500 ${
+        solid
+          ? "border-white/10 bg-[#050a1c]/75 shadow-[0_8px_30px_rgba(2,6,23,0.35)] backdrop-blur-xl"
+          : "border-transparent bg-transparent"
+      }`}
+    >
+      {/* NAVBAR CONTENT (h-[72px] + 1px border = the 73px the hero pulls up by) */}
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-12">
+        {/* LOGO */}
+        <Link
+          href="/"
+          onClick={() => setOpen(false)}
+          className="group flex items-center gap-3"
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-cyan-400 to-purple-500 text-white shadow-[0_0_20px_rgba(56,189,248,0.45)] transition-all duration-300 group-hover:-rotate-6 group-hover:scale-105">
+            <Code2 size={22} strokeWidth={2} />
+          </span>
 
-        <div className="space-x-6">
+          <span className="text-base font-bold tracking-tight sm:text-lg">
+            Rubiks
+            <span className="ml-1.5 font-medium text-sky-200/70">
+              Solutions
+            </span>
+          </span>
+        </Link>
+
+        {/* DESKTOP NAVIGATION */}
+        <div className="hidden items-center gap-8 md:flex">
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={`group relative py-2 text-sm font-medium transition-colors duration-300 hover:text-cyan-300 ${
+                  active ? "text-white" : "text-white/70"
+                }`}
+              >
+                {link.label}
+                <span
+                  className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-linear-to-r from-cyan-400 to-purple-500 transition-all duration-300 group-hover:w-full ${
+                    active ? "w-full" : "w-0"
+                  }`}
+                />
+              </Link>
+            );
+          })}
+
+          <Link href="/contact" className={ctaClass}>
+            Get Started
+            <ArrowUpRight
+              size={16}
+              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </Link>
+        </div>
+
+        {/* MOBILE MENU BUTTON */}
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white backdrop-blur transition-all duration-300 hover:bg-white/20 md:hidden"
+          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+
+      {/* MOBILE MENU */}
+      <div
+        id="mobile-navigation"
+        className={`overflow-hidden border-t border-white/10 bg-[#050a1c]/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
+          open
+            ? "max-h-[420px] opacity-100"
+            : "pointer-events-none max-h-0 border-transparent opacity-0"
+        }`}
+        aria-hidden={!open}
+        inert={!open}
+      >
+        <div className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-4 sm:px-8">
+          {navLinks.map((link, index) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              tabIndex={open ? 0 : -1}
+              onClick={() => setOpen(false)}
+              style={{ transitionDelay: open ? `${index * 50}ms` : "0ms" }}
+              className={`rounded-xl px-4 py-3 text-sm font-medium text-white/80 transition-all duration-300 hover:bg-white/10 hover:text-cyan-300 ${
+                open ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+
           <Link
-  href="/"
-  className="relative transition-all duration-300 hover:text-blue-500 hover:-translate-y-1"
->
-  Home
-</Link>
-
-<Link
-  href="/about"
-  className="relative transition-all duration-300 hover:text-blue-500 hover:-translate-y-1"
->
-  About
-</Link>
-
-<Link
-  href="/catalog"
-  className="relative transition-all duration-300 hover:text-blue-500 hover:-translate-y-1"
->
-  Packages
-</Link>
-
-<Link
-  href="/contact"
-  className="relative transition-all duration-300 hover:text-blue-500 hover:-translate-y-1"
->
-  Contact
-</Link>
-
-<Link
-  href="/quote"
-  className="bg-blue-500 px-4 py-2 rounded-lg transition-all duration-300 hover:bg-blue-800 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/30"
->
-  Request Quote
-</Link>
+            href="/contact"
+            tabIndex={open ? 0 : -1}
+            onClick={() => setOpen(false)}
+            className={`${ctaClass} mt-2 w-fit`}
+          >
+            Get Started
+            <ArrowUpRight
+              size={16}
+              className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </Link>
         </div>
       </div>
     </nav>

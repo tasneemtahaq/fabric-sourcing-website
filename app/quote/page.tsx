@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowUpRight, CheckCircle2, Send } from "lucide-react";
 
 type FormData = {
   name: string;
@@ -13,17 +14,21 @@ type FormData = {
   requirements: string;
 };
 
-export default function QuotePage() {
-  const [form, setForm] = useState<FormData>({
-    name: "",
-    company: "",
-    country: "",
-    email: "",
-    whatsapp: "",
-    websiteType: "",
-    requirements: "",
-  });
+const initialForm: FormData = {
+  name: "",
+  company: "",
+  country: "",
+  email: "",
+  whatsapp: "",
+  websiteType: "",
+  requirements: "",
+};
 
+const inputClass =
+  "w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-sm text-white outline-none transition-all duration-300 placeholder:text-white/35 focus:border-[#86efac]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#86efac]/10";
+
+export default function QuotePage() {
+  const [form, setForm] = useState<FormData>(initialForm);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -40,7 +45,6 @@ export default function QuotePage() {
       [name]: value,
     }));
 
-    // Remove messages when user starts editing again
     setSuccess("");
     setError("");
   };
@@ -67,21 +71,11 @@ export default function QuotePage() {
         throw new Error(data.message || "Something went wrong.");
       }
 
-      // Success
       setSuccess(
         "Thank you! Your quote request has been received. We will get back to you soon."
       );
 
-      // Clear form
-      setForm({
-        name: "",
-        company: "",
-        country: "",
-        email: "",
-        whatsapp: "",
-        websiteType: "",
-        requirements: "",
-      });
+      setForm(initialForm);
     } catch (err) {
       console.error("Quote submission error:", err);
 
@@ -96,142 +90,232 @@ export default function QuotePage() {
   };
 
   return (
-    <main className="max-w-3xl mx-auto p-8">
+    <main className="relative min-h-screen overflow-hidden bg-[#06140d] px-5 py-20 text-white sm:px-8 lg:py-28">
 
-      <h1 className="text-4xl font-bold mb-6 text-center">
-        Request Website Quote
-      </h1>
+      {/* BACKGROUND GLOW */}
+      <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#4ade80]/10 blur-[150px]" />
+      <div className="pointer-events-none absolute -right-40 bottom-10 h-96 w-96 rounded-full bg-[#22c55e]/10 blur-[150px]" />
 
-      <p className="text-center text-gray-600 mb-8">
-        Tell us about your project and we&apos;ll get back to you with a custom
-        quote.
-      </p>
+      <div className="relative mx-auto max-w-3xl">
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* HEADING */}
+        <div className="mb-12 text-center">
 
-        {/* Name */}
-        <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Name *"
-          className="border p-3 w-full rounded"
-          required
-        />
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#86efac]/20 bg-[#86efac]/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#86efac]">
+            <span className="h-2 w-2 rounded-full bg-[#4ade80] shadow-[0_0_10px_#4ade80]" />
+            Let&apos;s Build Something
+          </span>
 
-        {/* Company */}
-        <input
-          name="company"
-          value={form.company}
-          onChange={handleChange}
-          placeholder="Company Name"
-          className="border p-3 w-full rounded"
-        />
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+            Request a{" "}
+            <span className="text-[#86efac]">Website Quote</span>
+          </h1>
 
-        {/* Country */}
-        <input
-          name="country"
-          value={form.country}
-          onChange={handleChange}
-          placeholder="Country"
-          className="border p-3 w-full rounded"
-        />
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-white/55 sm:text-base">
+            Tell us about your project and your vision. Our team will help
+            turn your ideas into a professional digital experience.
+          </p>
+        </div>
 
-        {/* Email */}
-        <input
-          name="email"
-          type="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Email"
-          className="border p-3 w-full rounded"
-        />
+        {/* FORM CONTAINER */}
+        <div className="relative overflow-hidden rounded-3xl border border-[#86efac]/15 bg-white/[0.035] p-6 shadow-[0_20px_80px_rgba(0,0,0,0.3)] backdrop-blur-xl sm:p-10">
 
-        {/* WhatsApp */}
-        <input
-          name="whatsapp"
-          type="tel"
-          value={form.whatsapp}
-          onChange={handleChange}
-          placeholder="WhatsApp Number *"
-          className="border p-3 w-full rounded"
-          required
-        />
+          <div className="absolute left-0 top-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[#4ade80] to-transparent opacity-70" />
 
-        {/* Website Type */}
-        <select
-          name="websiteType"
-          value={form.websiteType}
-          onChange={handleChange}
-          className="border p-3 w-full rounded bg-white"
-          required
-        >
-          <option value="">Select Website Type *</option>
+          <form onSubmit={handleSubmit} className="space-y-6">
 
-          <option value="B2B Website">
-            B2B Website
-          </option>
+            <div className="grid gap-5 sm:grid-cols-2">
 
-          <option value="Food Delivery Website">
-            Food Delivery Website
-          </option>
+              {/* NAME */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white/80">
+                  Your Name *
+                </label>
 
-          <option value="Ecommerce Website">
-            Ecommerce Website
-          </option>
+                <input
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Enter your name"
+                  className={inputClass}
+                  required
+                />
+              </div>
 
-          <option value="Business Website">
-            Business Website
-          </option>
+              {/* COMPANY */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white/80">
+                  Company Name
+                </label>
 
-          <option value="Portfolio Website">
-            Portfolio Website
-          </option>
+                <input
+                  name="company"
+                  value={form.company}
+                  onChange={handleChange}
+                  placeholder="Your company"
+                  className={inputClass}
+                />
+              </div>
 
-          <option value="Custom Web Application">
-            Custom Web Application
-          </option>
+              {/* COUNTRY */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white/80">
+                  Country
+                </label>
 
-          <option value="Other">
-            Other
-          </option>
-        </select>
+                <input
+                  name="country"
+                  value={form.country}
+                  onChange={handleChange}
+                  placeholder="Your country"
+                  className={inputClass}
+                />
+              </div>
 
-        {/* Requirements */}
-        <textarea
-          name="requirements"
-          value={form.requirements}
-          onChange={handleChange}
-          placeholder="Tell us about your requirements"
-          className="border p-3 w-full rounded"
-          rows={5}
-        />
+              {/* EMAIL */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white/80">
+                  Email Address
+                </label>
 
-        {/* Success Message */}
-        {success && (
-          <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
-            {success}
-          </div>
-        )}
+                <input
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="example@email.com"
+                  className={inputClass}
+                />
+              </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
-            {error}
-          </div>
-        )}
+            </div>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-slate-900 text-white px-6 py-3 rounded w-full hover:bg-slate-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? "Sending Request..." : "Get a Custom Quote"}
-        </button>
+            {/* WHATSAPP */}
+            <div>
+              <label className="mb-2 block text-sm font-medium text-white/80">
+                WhatsApp Number *
+              </label>
 
-      </form>
+              <input
+                name="whatsapp"
+                type="tel"
+                value={form.whatsapp}
+                onChange={handleChange}
+                placeholder="+92 300 1234567"
+                className={inputClass}
+                required
+              />
+            </div>
+
+            {/* WEBSITE TYPE */}
+            <div>
+              <label className="mb-2 block text-sm font-medium text-white/80">
+                Website Type *
+              </label>
+
+              <select
+                name="websiteType"
+                value={form.websiteType}
+                onChange={handleChange}
+                className={`${inputClass} appearance-none`}
+                required
+              >
+                <option value="" className="bg-[#06140d]">
+                  Select Website Type
+                </option>
+
+                <option value="B2B Website" className="bg-[#06140d]">
+                  B2B Website
+                </option>
+
+                <option value="Food Delivery Website" className="bg-[#06140d]">
+                  Food Delivery Website
+                </option>
+
+                <option value="Ecommerce Website" className="bg-[#06140d]">
+                  Ecommerce Website
+                </option>
+
+                <option value="Business Website" className="bg-[#06140d]">
+                  Business Website
+                </option>
+
+                <option value="Portfolio Website" className="bg-[#06140d]">
+                  Portfolio Website
+                </option>
+
+                <option value="Custom Web Application" className="bg-[#06140d]">
+                  Custom Web Application
+                </option>
+
+                <option value="Other" className="bg-[#06140d]">
+                  Other
+                </option>
+              </select>
+            </div>
+
+            {/* REQUIREMENTS */}
+            <div>
+              <label className="mb-2 block text-sm font-medium text-white/80">
+                Project Requirements
+              </label>
+
+              <textarea
+                name="requirements"
+                value={form.requirements}
+                onChange={handleChange}
+                placeholder="Tell us about your project, required features, design preferences, and goals..."
+                className={`${inputClass} resize-none`}
+                rows={5}
+              />
+            </div>
+
+            {/* SUCCESS MESSAGE */}
+            {success && (
+              <div
+                role="status"
+                className="flex gap-3 rounded-xl border border-green-400/20 bg-green-400/10 p-4 text-sm text-green-300"
+              >
+                <CheckCircle2 className="h-5 w-5 shrink-0" />
+                {success}
+              </div>
+            )}
+
+            {/* ERROR MESSAGE */}
+            {error && (
+              <div
+                role="alert"
+                className="rounded-xl border border-red-400/20 bg-red-400/10 p-4 text-sm text-red-300"
+              >
+                {error}
+              </div>
+            )}
+
+            {/* SUBMIT BUTTON */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="group flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 px-6 py-4 font-semibold text-[#06140d] shadow-[0_0_25px_rgba(34,197,94,0.2)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_35px_rgba(74,222,128,0.35)] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {loading ? "Sending Request..." : "Get a Custom Quote"}
+
+              {!loading && (
+                <ArrowUpRight
+                  size={19}
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                />
+              )}
+
+              {loading && <Send size={18} className="animate-pulse" />}
+            </button>
+
+            <p className="text-center text-xs text-white/35">
+              Your project information will only be used to respond to your inquiry.
+            </p>
+
+          </form>
+        </div>
+      </div>
     </main>
   );
 }
-

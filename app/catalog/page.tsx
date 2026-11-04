@@ -7,24 +7,24 @@ import { motion } from "framer-motion";
 
 const websites = [
   {
-    name: "B2B Website",
+    name: "Ecommerce Website",
     category: "b2b",
-    image: "/images/111.jpg",
-    Url: "https://www.fabricsourcing.com/",
+    image: "/images/111.png",
+    Url: "https://mohammadiartgallery.vercel.app/",
     slug: "b2b-website",
   
   },
   {
     name: "Ecommerce Website",
     category: "ecommerce",
-    image: "/images/222.jpg",
+    image: "/images/222.png",
     Url: "https://www.menodoradigitals.online/",
     slug: "ecommerce-website",
   },
   {
     name: "Food Delivery Website",
     category: "food delivery",
-    image: "/images/333.jpg",
+    image: "/images/333.png",
     Url: "www.mamasoups.net",
     slug: "food-delivery-website",
     
@@ -77,30 +77,14 @@ export default function CatalogPage() {
         <div className="mt-10">
           <input
             type="text"
-            placeholder="Search fabrics..."
+            placeholder="Search websites..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 outline-none focus:border-cyan-400"
           />
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-4 mt-8">
-
-          {["all", "uniform", "sportswear", "workwear"].map((item) => (
-            <button
-              key={item}
-              onClick={() => setCategory(item)}
-              className={`px-6 py-3 rounded-full transition-all duration-300 border border-white/10 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30 ${
-                category === item
-                  ? "bg-cyan-500 text-white"
-                  : "bg-white/5 backdrop-blur-xl"
-              }`}
-            >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
-            </button>
-          ))}
-        </div>
+       
 
         {/* Cards */}
         <div className="grid md:grid-cols-3 gap-8 mt-16">
