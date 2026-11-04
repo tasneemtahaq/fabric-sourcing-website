@@ -23,7 +23,7 @@ const packages = [
         price: "Rs. 20,000",
         popular: false,
         features: [
-          "5–7 Pages",
+          "15-25 Pages",
           "Responsive Design",
           "Custom UI/UX",
           "Basic Product / Service Catalog",
@@ -41,7 +41,7 @@ const packages = [
         price: "Rs. 40,000",
         popular: true,
         features: [
-          "8–12 Pages",
+          "50 Pages",
           "Responsive Design",
           "Custom UI/UX",
           "Advanced Product / Service Catalog",
@@ -61,7 +61,7 @@ const packages = [
         price: "Rs. 200,000+",
         popular: false,
         features: [
-          "15–25+ Pages",
+          "100+ Pages",
           "Responsive Design",
           "Custom UI/UX",
           "Advanced Product / Service Catalog",
@@ -74,6 +74,7 @@ const packages = [
           "Quote Request System",
           "Analytics",
           "Performance Optimization",
+          "AI Chatbot Integration",
           "6 Months Maintenance",
         ],
       },
@@ -159,6 +160,7 @@ const packages = [
           "WhatsApp & Email Notifications",
           "Sales Analytics",
           "Advanced SEO",
+          "AI Chatbot Integration",
           "6 Months Maintenance",
         ],
       },
