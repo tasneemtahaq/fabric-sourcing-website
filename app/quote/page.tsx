@@ -2,7 +2,13 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight, CheckCircle2, Send } from "lucide-react";
+import type { ChangeEvent, FormEvent } from "react";
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  Send,
+  Globe,
+} from "lucide-react";
 
 type FormData = {
   name: string;
@@ -25,7 +31,7 @@ const initialForm: FormData = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-sm text-white outline-none transition-all duration-300 placeholder:text-white/35 focus:border-[#86efac]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#86efac]/10";
+  "w-full rounded-xl border border-white/10 bg-white/[0.05] px-4 py-4 text-sm text-white outline-none transition-all duration-300 placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/[0.08] focus:ring-2 focus:ring-cyan-400/10";
 
 export default function QuotePage() {
   const [form, setForm] = useState<FormData>(initialForm);
@@ -34,7 +40,7 @@ export default function QuotePage() {
   const [error, setError] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<
+    e: ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
@@ -49,7 +55,7 @@ export default function QuotePage() {
     setError("");
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
@@ -90,109 +96,128 @@ export default function QuotePage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#06140d] px-5 py-20 text-white sm:px-8 lg:py-28">
+    <main className="relative min-h-screen overflow-hidden bg-[#0B0F19] px-5 py-20 text-white sm:px-8 lg:py-28">
 
       {/* BACKGROUND GLOW */}
-      <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#4ade80]/10 blur-[150px]" />
-      <div className="pointer-events-none absolute -right-40 bottom-10 h-96 w-96 rounded-full bg-[#22c55e]/10 blur-[150px]" />
+      <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-cyan-500/15 blur-[150px]" />
 
-      <div className="relative mx-auto max-w-3xl">
+      <div className="pointer-events-none absolute -right-40 bottom-10 h-96 w-96 rounded-full bg-blue-500/15 blur-[150px]" />
+
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400/5 blur-[150px]" />
+
+      <div className="relative z-10 mx-auto max-w-4xl">
 
         {/* HEADING */}
-        <div className="mb-12 text-center">
+        <div className="mb-14 text-center">
 
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#86efac]/20 bg-[#86efac]/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#86efac]">
-            <span className="h-2 w-2 rounded-full bg-[#4ade80] shadow-[0_0_10px_#4ade80]" />
-            Let&apos;s Build Something
+          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-cyan-400">
+            <Globe size={15} />
+            Let&apos;s Work Together
           </span>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
             Request a{" "}
-            <span className="text-[#86efac]">Website Quote</span>
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              Website Quote
+            </span>
           </h1>
 
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-white/55 sm:text-base">
-            Tell us about your project and your vision. Our team will help
-            turn your ideas into a professional digital experience.
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-slate-400 sm:text-base">
+            Tell us about your project and your vision. Our team
+            will help turn your ideas into a professional digital
+            experience.
           </p>
+
         </div>
 
         {/* FORM CONTAINER */}
-        <div className="relative overflow-hidden rounded-3xl border border-[#86efac]/15 bg-white/[0.035] p-6 shadow-[0_20px_80px_rgba(0,0,0,0.3)] backdrop-blur-xl sm:p-10">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-10">
 
-          <div className="absolute left-0 top-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[#4ade80] to-transparent opacity-70" />
+          {/* TOP GLOW LINE */}
+          <div className="absolute left-0 top-0 h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400 to-blue-500" />
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-7">
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            {/* PERSONAL INFORMATION */}
+            <div>
+              <h2 className="mb-6 text-xl font-semibold">
+                Personal Information
+              </h2>
 
-              {/* NAME */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-white/80">
-                  Your Name *
-                </label>
+              <div className="grid gap-5 sm:grid-cols-2">
 
-                <input
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="Enter your name"
-                  className={inputClass}
-                  required
-                />
+                {/* NAME */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-300">
+                    Your Name *
+                  </label>
+
+                  <input
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Enter your name"
+                    className={inputClass}
+                    required
+                  />
+                </div>
+
+                {/* COMPANY */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-300">
+                    Company Name
+                  </label>
+
+                  <input
+                    name="company"
+                    value={form.company}
+                    onChange={handleChange}
+                    placeholder="Your company"
+                    className={inputClass}
+                  />
+                </div>
+
+                {/* COUNTRY */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-300">
+                    Country
+                  </label>
+
+                  <input
+                    name="country"
+                    value={form.country}
+                    onChange={handleChange}
+                    placeholder="Your country"
+                    className={inputClass}
+                  />
+                </div>
+
+                {/* EMAIL */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-300">
+                    Email Address
+                  </label>
+
+                  <input
+                    name="email"
+                    type="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="example@email.com"
+                    className={inputClass}
+                  />
+                </div>
+
               </div>
-
-              {/* COMPANY */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-white/80">
-                  Company Name
-                </label>
-
-                <input
-                  name="company"
-                  value={form.company}
-                  onChange={handleChange}
-                  placeholder="Your company"
-                  className={inputClass}
-                />
-              </div>
-
-              {/* COUNTRY */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-white/80">
-                  Country
-                </label>
-
-                <input
-                  name="country"
-                  value={form.country}
-                  onChange={handleChange}
-                  placeholder="Your country"
-                  className={inputClass}
-                />
-              </div>
-
-              {/* EMAIL */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-white/80">
-                  Email Address
-                </label>
-
-                <input
-                  name="email"
-                  type="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="example@email.com"
-                  className={inputClass}
-                />
-              </div>
-
             </div>
 
-            {/* WHATSAPP */}
+            {/* CONTACT INFORMATION */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-white/80">
+              <h2 className="mb-6 text-xl font-semibold">
+                Contact Information
+              </h2>
+
+              <label className="mb-2 block text-sm font-medium text-slate-300">
                 WhatsApp Number *
               </label>
 
@@ -209,7 +234,11 @@ export default function QuotePage() {
 
             {/* WEBSITE TYPE */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-white/80">
+              <h2 className="mb-6 text-xl font-semibold">
+                Project Details
+              </h2>
+
+              <label className="mb-2 block text-sm font-medium text-slate-300">
                 Website Type *
               </label>
 
@@ -220,35 +249,35 @@ export default function QuotePage() {
                 className={`${inputClass} appearance-none`}
                 required
               >
-                <option value="" className="bg-[#06140d]">
+                <option value="" className="bg-[#0B0F19]">
                   Select Website Type
                 </option>
 
-                <option value="B2B Website" className="bg-[#06140d]">
+                <option value="B2B Website" className="bg-[#0B0F19]">
                   B2B Website
                 </option>
 
-                <option value="Food Delivery Website" className="bg-[#06140d]">
+                <option value="Food Delivery Website" className="bg-[#0B0F19]">
                   Food Delivery Website
                 </option>
 
-                <option value="Ecommerce Website" className="bg-[#06140d]">
+                <option value="Ecommerce Website" className="bg-[#0B0F19]">
                   Ecommerce Website
                 </option>
 
-                <option value="Business Website" className="bg-[#06140d]">
+                <option value="Business Website" className="bg-[#0B0F19]">
                   Business Website
                 </option>
 
-                <option value="Portfolio Website" className="bg-[#06140d]">
+                <option value="Portfolio Website" className="bg-[#0B0F19]">
                   Portfolio Website
                 </option>
 
-                <option value="Custom Web Application" className="bg-[#06140d]">
+                <option value="Custom Web Application" className="bg-[#0B0F19]">
                   Custom Web Application
                 </option>
 
-                <option value="Other" className="bg-[#06140d]">
+                <option value="Other" className="bg-[#0B0F19]">
                   Other
                 </option>
               </select>
@@ -256,7 +285,7 @@ export default function QuotePage() {
 
             {/* REQUIREMENTS */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-white/80">
+              <label className="mb-2 block text-sm font-medium text-slate-300">
                 Project Requirements
               </label>
 
@@ -274,7 +303,7 @@ export default function QuotePage() {
             {success && (
               <div
                 role="status"
-                className="flex gap-3 rounded-xl border border-green-400/20 bg-green-400/10 p-4 text-sm text-green-300"
+                className="flex gap-3 rounded-xl border border-cyan-400/20 bg-cyan-400/10 p-4 text-sm text-cyan-300"
               >
                 <CheckCircle2 className="h-5 w-5 shrink-0" />
                 {success}
@@ -295,13 +324,13 @@ export default function QuotePage() {
             <button
               type="submit"
               disabled={loading}
-              className="group flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-400 px-6 py-4 font-semibold text-[#06140d] shadow-[0_0_25px_rgba(34,197,94,0.2)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_35px_rgba(74,222,128,0.35)] disabled:cursor-not-allowed disabled:opacity-50"
+              className="group flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 px-6 py-4 font-semibold text-white shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/30 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? "Sending Request..." : "Get a Custom Quote"}
 
               {!loading && (
                 <ArrowUpRight
-                  size={19}
+                  size={20}
                   className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
                 />
               )}
@@ -309,12 +338,19 @@ export default function QuotePage() {
               {loading && <Send size={18} className="animate-pulse" />}
             </button>
 
-            <p className="text-center text-xs text-white/35">
-              Your project information will only be used to respond to your inquiry.
+            <p className="text-center text-xs text-slate-500">
+              Your project information will only be used to respond
+              to your inquiry.
             </p>
 
           </form>
         </div>
+
+        {/* BOTTOM TEXT */}
+        <p className="mt-10 text-center text-sm text-slate-500">
+          Have a project in mind? Let&apos;s bring your ideas to life.
+        </p>
+
       </div>
     </main>
   );
