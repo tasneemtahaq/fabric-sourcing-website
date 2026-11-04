@@ -6,7 +6,7 @@ export default function AboutPage() {
       </h1>
 
       <p className="mt-4">
-        We help buyers source premium fabrics from Pakistan&apos;s textile industry.
+       Coming Soon.
       </p>
     </main>
   );

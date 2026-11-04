@@ -251,18 +251,18 @@ const packages = [
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#06140d] text-white">
+    <main className="min-h-screen overflow-hidden bg-[#050a1c] text-white">
 
       {/* HERO SECTION */}
       <section className="relative overflow-hidden px-6 pb-24 pt-28 lg:px-12 lg:pt-36">
 
         {/* BACKGROUND GLOW */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-[15%] top-[5%] h-[500px] w-[500px] rounded-full bg-[#4ade80]/10 blur-[160px]" />
+          <div className="absolute -left-[15%] top-[5%] h-[500px] w-[500px] rounded-full bg-cyan-400/10 blur-[160px]" />
 
-          <div className="absolute -right-[10%] top-[20%] h-[500px] w-[500px] rounded-full bg-[#22c55e]/10 blur-[170px]" />
+          <div className="absolute -right-[10%] top-[20%] h-[500px] w-[500px] rounded-full bg-purple-500/10 blur-[170px]" />
 
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#06140d_85%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#050a1c_85%)]" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-7xl">
@@ -273,9 +273,9 @@ export default function ServicesPage() {
             transition={{ duration: 0.7 }}
             className="mb-6 flex items-center gap-3"
           >
-            <span className="h-px w-10 bg-[#4ade80]" />
+            <span className="h-px w-10 bg-cyan-400" />
 
-            <span className="text-xs font-medium uppercase tracking-[0.28em] text-[#86efac]">
+            <span className="text-xs font-medium uppercase tracking-[0.28em] text-cyan-400">
               Rubiks Solutions
             </span>
           </motion.div>
@@ -288,7 +288,8 @@ export default function ServicesPage() {
           >
             Digital Solutions
             <br />
-            <span className="bg-gradient-to-r from-[#86efac] via-[#4ade80] to-green-500 bg-clip-text text-transparent">
+
+            <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-500 bg-clip-text text-transparent">
               Built to Grow.
             </span>
           </motion.h1>
@@ -331,10 +332,10 @@ export default function ServicesPage() {
                 {/* CATEGORY HEADING */}
                 <div className="mb-10 flex items-start gap-4">
 
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#86efac]/15 bg-[#86efac]/[0.06]">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/[0.07]">
                     <Icon
                       size={22}
-                      className="text-[#86efac]"
+                      className="text-cyan-400"
                     />
                   </div>
 
@@ -365,22 +366,23 @@ export default function ServicesPage() {
                       }}
                       className={`group relative flex flex-col overflow-hidden rounded-3xl border p-7 transition-all duration-500 hover:-translate-y-2 ${
                         plan.popular
-                          ? "border-[#4ade80]/50 bg-gradient-to-b from-[#86efac]/[0.09] to-[#06140d] shadow-[0_0_60px_rgba(34,197,94,0.10)] hover:shadow-[0_0_60px_rgba(34,197,94,0.18)]"
-                          : "border-white/10 bg-white/[0.025] hover:border-[#86efac]/30 hover:bg-white/[0.045]"
+                          ? "border-cyan-400/50 bg-gradient-to-b from-cyan-400/[0.10] via-sky-500/[0.04] to-[#050a1c] shadow-[0_0_60px_rgba(56,189,248,0.10)] hover:shadow-[0_0_60px_rgba(56,189,248,0.2)]"
+                          : "border-white/10 bg-white/[0.035] hover:border-cyan-400/30 hover:bg-white/[0.055]"
                       }`}
                     >
 
                       {/* CARD GLOW */}
-                      <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[#4ade80]/[0.06] blur-[80px] transition-opacity duration-500 group-hover:bg-[#4ade80]/[0.12]" />
+                      <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-cyan-400/[0.07] blur-[80px] transition-all duration-500 group-hover:bg-purple-500/[0.12]" />
 
                       {/* POPULAR BADGE */}
                       {plan.popular && (
-                        <div className="absolute right-5 top-5 rounded-full border border-[#86efac]/30 bg-[#86efac]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#86efac]">
+                        <div className="absolute right-5 top-5 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-cyan-300">
                           Most Popular
                         </div>
                       )}
 
                       <div className="relative">
+
                         <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                           Package
                         </p>
@@ -390,35 +392,38 @@ export default function ServicesPage() {
                         </h3>
 
                         <div className="mt-5">
-                          <span className="text-3xl font-semibold tracking-tight text-[#86efac]">
+                          <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-3xl font-semibold tracking-tight text-transparent">
                             {plan.price}
                           </span>
                         </div>
+
                       </div>
 
                       {/* DIVIDER */}
-                      <div className="my-7 h-px bg-gradient-to-r from-[#86efac]/20 via-white/10 to-transparent" />
+                      <div className="my-7 h-px bg-gradient-to-r from-cyan-400/30 via-white/10 to-transparent" />
 
                       {/* FEATURES */}
                       <div className="relative flex-1 space-y-3">
+
                         {plan.features.map((feature) => (
                           <div
                             key={feature}
                             className="flex items-start gap-3"
                           >
-                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#86efac]/10">
+                            <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cyan-400/10">
                               <Check
                                 size={12}
                                 strokeWidth={2.5}
-                                className="text-[#86efac]"
+                                className="text-cyan-400"
                               />
                             </div>
 
-                            <span className="text-sm leading-5 text-white/65 transition-colors duration-300 group-hover:text-white/85">
+                            <span className="text-sm leading-5 text-white/65 transition-colors duration-300 group-hover:text-white/90">
                               {feature}
                             </span>
                           </div>
                         ))}
+
                       </div>
 
                       {/* GET STARTED BUTTON */}
@@ -426,8 +431,8 @@ export default function ServicesPage() {
                         href="/contact"
                         className={`group/btn mt-8 flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold transition-all duration-300 ${
                           plan.popular
-                            ? "bg-gradient-to-r from-green-500 to-emerald-400 text-[#06140d] shadow-[0_0_20px_rgba(34,197,94,0.2)] hover:shadow-[0_0_30px_rgba(74,222,128,0.4)]"
-                            : "border border-[#86efac]/20 bg-[#86efac]/[0.04] text-[#86efac] hover:border-[#86efac]/50 hover:bg-[#86efac] hover:text-[#06140d]"
+                            ? "bg-gradient-to-r from-cyan-400 via-sky-500 to-purple-500 text-white shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(168,85,247,0.4)]"
+                            : "border border-cyan-400/25 bg-cyan-400/[0.05] text-cyan-300 hover:border-cyan-400/60 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-purple-500 hover:text-white"
                         }`}
                       >
                         Get Started
@@ -454,18 +459,22 @@ export default function ServicesPage() {
 
         {/* BACKGROUND GLOW */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#22c55e]/10 blur-[140px]" />
+          <div className="absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[140px]" />
+
+          <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-purple-500/10 blur-[130px]" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-4xl text-center">
 
-          <p className="text-xs uppercase tracking-[0.25em] text-[#86efac]">
+          <p className="text-xs uppercase tracking-[0.25em] text-cyan-400">
             Need Something Custom?
           </p>
 
           <h2 className="mt-5 text-4xl font-medium tracking-tight sm:text-5xl">
             Let&apos;s build something
-            <span className="text-[#86efac]"> unique.</span>
+            <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+              {" "}unique.
+            </span>
           </h2>
 
           <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-white/50 sm:text-base">
@@ -475,7 +484,7 @@ export default function ServicesPage() {
 
           <Link
             href="/contact"
-            className="group mx-auto mt-8 flex w-fit items-center gap-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-400 px-7 py-4 text-sm font-semibold text-[#06140d] shadow-[0_0_25px_rgba(34,197,94,0.2)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_35px_rgba(74,222,128,0.4)]"
+            className="group mx-auto mt-8 flex w-fit items-center gap-3 rounded-full bg-gradient-to-r from-cyan-400 via-sky-500 to-purple-500 px-7 py-4 text-sm font-semibold text-white shadow-[0_0_25px_rgba(56,189,248,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_35px_rgba(168,85,247,0.4)]"
           >
             Discuss Your Project
 
