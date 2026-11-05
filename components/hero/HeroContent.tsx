@@ -131,7 +131,7 @@ export function HeroCopy() {
 
       <div className="flex flex-wrap justify-center gap-3 lg:justify-start lg:gap-4">
         <Link
-          href="/pricing"
+          href="/catalog"
           className="group inline-flex items-center gap-2 rounded-full bg-linear-to-r from-cyan-400 via-violet-500 to-fuchsia-500 bg-[length:200%_100%] bg-left px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_32px_rgba(124,58,237,0.5)] transition-all duration-500 hover:-translate-y-0.5 hover:bg-right hover:shadow-[0_0_44px_rgba(236,72,153,0.6)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
         >
           Start Exploring
