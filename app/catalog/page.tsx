@@ -56,7 +56,7 @@ export default function CatalogPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center"
         >
-          Website Catalog
+          Our Projects
         </motion.h1>
 
         {/* Subtitle */}
