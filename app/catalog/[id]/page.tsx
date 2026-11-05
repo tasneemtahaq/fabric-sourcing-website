@@ -7,8 +7,8 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowUpRight, ExternalLink, Globe } from "lucide-react";
 
 const websites = {
-  "b2b-website": {
-    name: "Ecommerce Website",
+  "Ecommerce-Platform": {
+    name: "Ecommerce Platform",
     category: "B2B Website",
     image: "/images/111.png",
     url: "https://mohammadiartgallery.vercel.app/",
@@ -57,13 +57,16 @@ const websites = {
 };
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-export default function WebsiteDetailsPage({ params }: Props) {
-  const website = websites[params.id as keyof typeof websites];
+// eslint-disable-next-line @next/next/no-async-client-component
+export default async function WebsiteDetailsPage({ params }: Props) {
+  const { id } = await params;
+
+  const website = websites[id as keyof typeof websites];
 
   if (!website) {
     return (
