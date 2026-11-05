@@ -1,51 +1,70 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Shield, Sparkles, Zap } from "lucide-react";
+import { motion, useTransform, type MotionValue } from "framer-motion";
+import { ArrowRight, Shield, Sparkles, Zap, type LucideIcon } from "lucide-react";
 
 const cards = [
-  { icon: Zap, title: "Boost Productivity", text: "Smart digital solutions" },
-  { icon: Sparkles, title: "Creative Freedom", text: "Ideas transformed into reality" },
-  { icon: Shield, title: "Safe & Secure", text: "Built for your business" },
+  { icon: Zap, title: "Boost Productivity", text: "Smart digital solutions", tint: "from-cyan-400/40 to-blue-500/10", ic: "text-cyan-200" },
+  { icon: Sparkles, title: "Creative Freedom", text: "Ideas transformed into reality", tint: "from-violet-400/40 to-fuchsia-500/10", ic: "text-violet-200" },
+  { icon: Shield, title: "Safe & Secure", text: "Built for your business", tint: "from-fuchsia-400/40 to-amber-400/10", ic: "text-pink-200" },
 ] as const;
 
-export default function FeatureCards() {
-  const reduce = useReducedMotion();
+interface CardProps {
+  progress: MotionValue<number>;
+  index: number;
+  icon: LucideIcon;
+  title: string;
+  text: string;
+  tint: string;
+  ic: string;
+}
+
+/**
+ * Opacity/position are animated on the card itself (not a parent) so its
+ * backdrop blur keeps seeing the cube behind it while it fades.
+ */
+function Card({ progress, index: i, icon: Icon, title, text, tint, ic }: CardProps) {
+  const opacity = useTransform(progress, [0.06 + i * 0.02, 0.24 + i * 0.02, 0.52, 0.64], [0, 1, 1, 0]);
+  const y = useTransform(progress, [0.06 + i * 0.03, 0.3 + i * 0.03, 0.52, 0.64], [120, 0, 0, -60]);
+  const pe = useTransform(opacity, (v) => (v > 0.45 ? "auto" : "none"));
+  const center = i === 1;
 
   return (
-    <div className="relative z-10 mt-4 grid gap-3 sm:grid-cols-3 lg:absolute lg:right-0 lg:top-1/2 lg:mt-0 lg:w-64 lg:-translate-y-1/2 lg:grid-cols-1 lg:gap-4">
-      {cards.map(({ icon: Icon, title, text }, i) => (
-        <motion.div
-          key={title}
-          initial={{ opacity: 0, x: reduce ? 0 : 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 + i * 0.15, ease: "easeOut" }}
-        >
-          <motion.div
-            animate={reduce ? undefined : { y: [0, -8, 0] }}
-            transition={{
-              duration: 5 + i * 0.8,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.6,
-            }}
-            whileHover={{ scale: 1.03 }}
-            className="group relative flex cursor-default flex-row items-center gap-3 rounded-2xl border border-white/15 bg-white/[0.07] p-4 shadow-[0_10px_40px_rgba(2,8,30,0.45)] backdrop-blur-xl transition-colors duration-300 hover:border-cyan-300/50 hover:bg-white/[0.12] sm:flex-col sm:items-start lg:flex-row lg:items-center"
-          >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-cyan-400/30 to-purple-500/30 text-cyan-200 ring-1 ring-white/20">
-              <Icon size={20} />
-            </span>
-            <span className="min-w-0">
-              <span className="block text-sm font-semibold text-white">{title}</span>
-              <span className="block text-xs text-slate-300/80">{text}</span>
-            </span>
-            <ArrowRight
-              size={16}
-              className="ml-auto shrink-0 text-cyan-200/70 transition-transform duration-300 group-hover:translate-x-1 sm:hidden lg:block"
-            />
-          </motion.div>
-        </motion.div>
-      ))}
+    <motion.div
+      style={{ opacity, y, pointerEvents: pe }}
+      whileHover={{ scale: 1.03 }}
+      className={`group flex cursor-default items-center gap-4 rounded-3xl border p-4 shadow-[0_20px_60px_rgba(5,5,30,0.5)] backdrop-saturate-150 transition-colors duration-300 hover:border-cyan-300/50 md:flex-col md:items-start md:gap-6 md:p-8 ${
+        center
+          ? "border-white/25 bg-white/[0.12] backdrop-blur-[44px] md:py-12"
+          : "border-white/15 bg-white/[0.07] backdrop-blur-[28px]"
+      }`}
+    >
+      <span
+        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br ${tint} ${ic} ring-1 ring-white/20 md:h-14 md:w-14`}
+      >
+        <Icon size={24} />
+      </span>
+      <span className="min-w-0">
+        <span className="block text-base font-semibold text-white md:text-xl">{title}</span>
+        <span className="mt-1 block text-sm text-slate-300/80">{text}</span>
+      </span>
+      <ArrowRight
+        size={18}
+        className="ml-auto shrink-0 text-cyan-200/70 transition-transform duration-300 group-hover:translate-x-1 md:ml-0 md:mt-auto"
+      />
+    </motion.div>
+  );
+}
+
+/** Frosted glass cards rise over the cube (which glides behind the middle one), then leave. */
+export default function FeatureCards({ progress }: { progress: MotionValue<number> }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-5 sm:px-8">
+      <div className="grid w-full max-w-5xl gap-3 md:grid-cols-3 md:gap-5">
+        {cards.map((c, i) => (
+          <Card key={c.title} progress={progress} index={i} {...c} />
+        ))}
+      </div>
     </div>
   );
 }

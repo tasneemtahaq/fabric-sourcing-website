@@ -1,32 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowUpRight, Code2 } from "lucide-react";
+import { Menu, X, ArrowUpRight, Box } from "lucide-react";
 
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
-  { label: "Projects", href: "/catalog" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Contact", href: "/contact" },
 ];
 
 const ctaClass =
-  "group inline-flex items-center gap-2 rounded-full bg-linear-to-r from-cyan-400 via-sky-500 to-purple-500 bg-[length:200%_100%] bg-left px-5 py-3 text-sm font-semibold text-white shadow-[0_0_24px_rgba(56,189,248,0.45)] transition-all duration-500 hover:-translate-y-0.5 hover:bg-right hover:shadow-[0_0_34px_rgba(168,85,247,0.6)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300";
+  "group inline-flex items-center gap-2 rounded-full bg-linear-to-r from-cyan-400 via-violet-500 to-fuchsia-500 bg-[length:200%_100%] bg-left px-5 py-3 text-sm font-semibold text-white shadow-[0_0_24px_rgba(56,189,248,0.45)] transition-all duration-500 hover:-translate-y-0.5 hover:bg-right hover:shadow-[0_0_34px_rgba(168,85,247,0.6)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300";
+
+const subscribeScroll = (cb: () => void) => {
+  window.addEventListener("scroll", cb, { passive: true });
+  return () => window.removeEventListener("scroll", cb);
+};
+const getScrolled = () => window.scrollY > 24;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const scrolled = useSyncExternalStore(subscribeScroll, getScrolled, () => false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  
 
   // Transparent only over the cinematic hero (home page, top of page).
   const solid = scrolled || open || pathname !== "/";
@@ -35,7 +36,7 @@ export default function Navbar() {
     <nav
       className={`sticky top-0 z-50 border-b text-white transition-all duration-500 ${
         solid
-          ? "border-white/10 bg-[#050a1c]/75 shadow-[0_8px_30px_rgba(2,6,23,0.35)] backdrop-blur-xl"
+          ? "border-white/10 bg-[#0a0b24]/75 shadow-[0_8px_30px_rgba(2,6,23,0.35)] backdrop-blur-xl"
           : "border-transparent bg-transparent"
       }`}
     >
@@ -47,8 +48,8 @@ export default function Navbar() {
           onClick={() => setOpen(false)}
           className="group flex items-center gap-3"
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-cyan-400 to-purple-500 text-white shadow-[0_0_20px_rgba(56,189,248,0.45)] transition-all duration-300 group-hover:-rotate-6 group-hover:scale-105">
-            <Code2 size={22} strokeWidth={2} />
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-cyan-400 via-violet-500 to-fuchsia-500 text-white shadow-[0_0_20px_rgba(56,189,248,0.45)] transition-all duration-300 group-hover:-rotate-6 group-hover:scale-105">
+            <Box size={22} strokeWidth={2} />
           </span>
 
           <span className="text-base font-bold tracking-tight sm:text-lg">
@@ -74,7 +75,7 @@ export default function Navbar() {
               >
                 {link.label}
                 <span
-                  className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-linear-to-r from-cyan-400 to-purple-500 transition-all duration-300 group-hover:w-full ${
+                  className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-linear-to-r from-cyan-400 via-violet-500 to-fuchsia-500 transition-all duration-300 group-hover:w-full ${
                     active ? "w-full" : "w-0"
                   }`}
                 />
@@ -107,7 +108,7 @@ export default function Navbar() {
       {/* MOBILE MENU */}
       <div
         id="mobile-navigation"
-        className={`overflow-hidden border-t border-white/10 bg-[#050a1c]/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
+        className={`overflow-hidden border-t border-white/10 bg-[#0a0b24]/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
           open
             ? "max-h-[420px] opacity-100"
             : "pointer-events-none max-h-0 border-transparent opacity-0"

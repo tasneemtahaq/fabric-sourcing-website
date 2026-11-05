@@ -18,7 +18,7 @@ const services = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-20 overflow-hidden border-t border-white/10 bg-[#050a1c] text-white">
+    <footer className="relative mt-0 overflow-hidden border-t border-white/10 bg-[#050a1c] text-white">
 
       {/* Decorative Background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -234,7 +234,7 @@ export default function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 text-center sm:px-8 md:flex-row md:px-12 md:text-left">
 
           <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} TwinJet Technologies.
+            © {new Date().getFullYear()} Rubiks Solutions.
             All rights reserved.
           </p>
 
