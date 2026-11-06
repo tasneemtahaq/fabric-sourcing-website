@@ -1,15 +1,34 @@
+"use client"
 
-"use client";
-
+import { use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowUpRight, ExternalLink, Globe } from "lucide-react";
 
 const websites = {
-  "Ecommerce-Platform": {
-    name: "Ecommerce Platform",
-    category: "B2B Website",
+    "b2b-website": {
+    name: "B2B Website",
+    category: "B2B",
+    image: "/images/444.png",
+    url: "https://www.royalmetalworks.online/",
+    description:
+      "A modern ecommerce platform designed to showcase products and provide customers with a smooth online shopping experience.",
+    features: [
+      "Product Display",
+      "Responsive Design",
+      "Easy Navigation",
+      "Modern UI/UX",
+      "Admin Panel",
+      "Product upload option",
+      "Data Edit Option",
+      "Support Customer Queries",
+    ],
+  },
+
+  "ecommerce-website": {
+    name: "Ecommerce Website",
+    category: "Ecommerce",
     image: "/images/111.png",
     url: "https://mohammadiartgallery.vercel.app/",
     description:
@@ -20,10 +39,24 @@ const websites = {
       "Product Showcase",
       "User-Friendly Navigation",
       "Modern UI/UX",
+      "3d Landing Page",
+      "Wish List Feature",
+      "Shopping Cart",
+      "Payment Gateway Integration",
+      "Product Filtering and Sorting",
+      "Search Functionality",
+      "Admin Panel for Product Management",
+      "Order Management System",
+      "Customer Account Management",
+      "Email Notifications for Orders",
+      "Analytics and Reporting",
+      "SEO Optimization",
+      "Social Media Integration",
+      "Authentication System",
     ],
   },
 
-  "ecommerce-website": {
+   "ecommerce-platform": {
     name: "Ecommerce Website",
     category: "Ecommerce",
     image: "/images/222.png",
@@ -36,6 +69,19 @@ const websites = {
       "Responsive Design",
       "Easy Navigation",
       "Modern UI/UX",
+      "Wish List Feature",
+      "Shopping Cart",
+      "Payment Gateway Integration",
+      "Product Filtering and Sorting",
+      "Search Functionality",
+      "Admin Panel for Product Management",
+      "Order Management System",
+      "Customer Account Management",
+      "Email Notifications for Orders",
+      "Analytics and Reporting",
+      "SEO Optimization",
+      "Social Media Integration",
+      "Authentication System",
     ],
   },
 
@@ -52,6 +98,18 @@ const websites = {
       "Easy Navigation",
       "Online Ordering Experience",
       "Modern UI/UX",
+      "Shopping Cart",
+      "Payment Gateway Integration",
+      "Search Functionality",
+      "Admin Panel for Product Management",
+      "Order Management System",
+      "Customer Account Management",
+      "Email Notifications for Orders",
+      "Analytics and Reporting",
+      "SEO Optimization",
+      "Social Media Integration",
+      "Authentication System",
+      "Ai Chatbot Integration",
     ],
   },
 };
@@ -62,10 +120,8 @@ type Props = {
   }>;
 };
 
-// eslint-disable-next-line @next/next/no-async-client-component
-export default async function WebsiteDetailsPage({ params }: Props) {
-  const { id } = await params;
-
+export default function WebsiteDetailsPage({ params }: Props) {
+  const { id } = use(params);
   const website = websites[id as keyof typeof websites];
 
   if (!website) {

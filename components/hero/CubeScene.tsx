@@ -1,5 +1,6 @@
 "use client";
 
+import type { RefObject } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment, Lightformer, Sparkles } from "@react-three/drei";
 import type { MotionValue } from "framer-motion";
@@ -10,9 +11,10 @@ interface CubeSceneProps {
   frameloop: "always" | "demand" | "never";
   reducedMotion: boolean;
   onReady: () => void;
+  slotRef?: RefObject<HTMLElement | null>;
 }
 
-export default function CubeScene({ progress, frameloop, reducedMotion, onReady }: CubeSceneProps) {
+export default function CubeScene({ progress, frameloop, reducedMotion, onReady, slotRef }: CubeSceneProps) {
   return (
     <Canvas
       frameloop={frameloop}
@@ -45,7 +47,7 @@ export default function CubeScene({ progress, frameloop, reducedMotion, onReady 
         opacity={0.7}
       />
 
-      <RubiksCube progress={progress} reducedMotion={reducedMotion} />
+      <RubiksCube progress={progress} reducedMotion={reducedMotion} slotRef={slotRef} />
     </Canvas>
   );
 }

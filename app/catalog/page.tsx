@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -8,18 +7,25 @@ import { motion } from "framer-motion";
 
 const websites = [
   {
-    name: "Ecommerce Platform",
+    name: "B2B Website",
     category: "B2B",
-    image: "/images/111.png",
-    url: "https://mohammadiartgallery.vercel.app/",
+    image: "/images/444.png",
+    url: "https://www.royalmetalworks.online/",
     slug: "b2b-website",
   },
   {
     name: "Ecommerce Website",
     category: "Ecommerce",
+    image: "/images/111.png",
+    url: "https://mohammadiartgallery.vercel.app/",
+    slug: "ecommerce-website",
+  },
+  {
+    name: "Ecommerce Platform",
+    category: "Ecommerce",
     image: "/images/222.png",
     url: "https://www.menodoradigitals.online/",
-    slug: "ecommerce-website",
+    slug: "ecommerce-platform",
   },
   {
     name: "Food Delivery Website",

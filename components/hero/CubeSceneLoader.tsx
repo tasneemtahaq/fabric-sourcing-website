@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type RefObject } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import type { MotionValue } from "framer-motion";
@@ -41,9 +41,11 @@ function detectWebGL() {
 
 interface Props {
   progress: MotionValue<number>;
+  /** phones: the empty space between title and copy that the cube fits into */
+  slotRef?: RefObject<HTMLElement | null>;
 }
 
-export default function CubeSceneLoader({ progress }: Props) {
+export default function CubeSceneLoader({ progress, slotRef }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -64,9 +66,10 @@ export default function CubeSceneLoader({ progress }: Props) {
 
   return (
     <div ref={ref} className="pointer-events-none absolute inset-0">
-      {/* Your cube image: shown while 3D loads, and as the permanent fallback without WebGL */}
+      {/* Your cube image: shown while 3D loads, and as the permanent fallback without WebGL.
+          Smaller on phones so it doesn't cover the heading. */}
       <div
-        className={`absolute left-1/2 top-[56%] aspect-square h-[min(58svh,520px)] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 [mask-image:radial-gradient(circle,black_50%,transparent_70%)] ${
+        className={`absolute left-1/2 top-[52%] aspect-square h-[min(30svh,260px)] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 [mask-image:radial-gradient(circle,black_50%,transparent_70%)] lg:top-[56%] lg:h-[min(58svh,520px)] ${
           ready ? "opacity-0" : "opacity-90"
         }`}
       >
@@ -81,6 +84,7 @@ export default function CubeSceneLoader({ progress }: Props) {
               frameloop={frameloop}
               reducedMotion={reduced}
               onReady={() => setReady(true)}
+              slotRef={slotRef}
             />
           </div>
         </CubeErrorBoundary>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import type { MotionValue } from "framer-motion";
@@ -30,10 +30,14 @@ const smooth = (a: number, b: number, x: number) => {
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const snap = (v: number) => Math.round(v - 0.5) + 0.5; // snap to -1.5,-0.5,0.5,1.5
 
-/** Scroll → cube shrinks into the middle (behind the cards), then grows back. */
-export const shrinkCurve = (p: number) => smooth(0.04, 0.26, p) * (1 - smooth(0.5, 0.7, p));
+/**
+ * Scroll timeline (0 → 1):
+ * 0.03–0.16 cube glides to the centre & shrinks · 0.2–0.6 cards hold (reading time)
+ * 0.6–0.71 cards are absorbed into the cube · 0.69–0.85 cube bursts · 0.9–1 reassembles
+ */
+export const shrinkCurve = (p: number) => smooth(0.03, 0.16, p) * (1 - smooth(0.68, 0.8, p));
 /** Scroll → cube scatters into floating cubes, then reassembles. */
-export const explodeCurve = (p: number) => smooth(0.52, 0.8, p) * (1 - smooth(0.88, 1, p));
+export const explodeCurve = (p: number) => smooth(0.69, 0.85, p) * (1 - smooth(0.9, 1, p));
 
 function rng(seed: number) {
   return () => {
@@ -78,11 +82,15 @@ const _qa = new THREE.Quaternion();
 interface Props {
   progress: MotionValue<number>;
   reducedMotion: boolean;
+  /** Empty space between the title and the copy on phones; the cube sits inside it. */
+  slotRef?: RefObject<HTMLElement | null>;
 }
 
-export default function RubiksCube({ progress, reducedMotion }: Props) {
+export default function RubiksCube({ progress, reducedMotion, slotRef }: Props) {
   const invalidate = useThree((s) => s.invalidate);
+  const gl = useThree((s) => s.gl);
   const width = useThree((s) => s.size.width);
+  const height = useThree((s) => s.size.height);
   const viewW = useThree((s) => s.viewport.width);
   const viewH = useThree((s) => s.viewport.height);
   const groupRef = useRef<THREE.Group>(null);
@@ -92,6 +100,8 @@ export default function RubiksCube({ progress, reducedMotion }: Props) {
   const pointer = useRef({ x: 0, y: 0, sx: 0, sy: 0 });
   const twist = useRef<Twist | null>(null);
   const nextTwist = useRef(T0 + DUR + MAX_DELAY + 1.2);
+  const slot = useRef({ cy: 0, h: 0 }); // phone slot, in canvas pixels
+  const smoothed = useRef({ fit: 0, y: 0 }); // eased size/position so layout changes glide
 
   const boxGeo = useMemo(() => new THREE.BoxGeometry(SIZE, SIZE, SIZE), []);
   const edgesGeo = useMemo(() => new THREE.EdgesGeometry(boxGeo), [boxGeo]);
@@ -163,6 +173,27 @@ export default function RubiksCube({ progress, reducedMotion }: Props) {
       off();
     };
   }, [progress, invalidate]);
+
+  // Measure the phone slot (re-measured whenever the layout or screen size changes)
+  useEffect(() => {
+    const el = slotRef?.current;
+    if (!el) return;
+    const measure = () => {
+      const a = el.getBoundingClientRect();
+      const b = gl.domElement.getBoundingClientRect();
+      slot.current = { cy: a.top + a.height / 2 - b.top, h: a.height };
+      invalidate();
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    ro.observe(gl.domElement);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [slotRef, gl, invalidate]);
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
@@ -253,23 +284,47 @@ export default function RubiksCube({ progress, reducedMotion }: Props) {
       g.rotation.y = Math.PI / 4 + ig * 2.6 + t * 0.16 * motion + pt.sx * 0.35 * motion + e * 1.1;
 
       const desktop = width >= 1024;
-            // desktop: sits on the right; phones/tablets: small enough to fit between the title and the copy
-      const fit = desktop
-        ? Math.min(0.56, (0.34 * viewW) / CUBE_W)
-        : Math.min(0.56, (0.66 * viewW) / CUBE_W, (0.36 * viewH) / 6.9);
-      g.scale.setScalar(fit * (1 - 0.38 * sh));
-      // desktop: cube lives on the right-middle; scrolling glides it to the centre (behind the middle card)
+      // desktop: sits on the right-middle.
+      // phones/tablets: sized and placed inside the empty slot between the title and the copy,
+      // so it never sits on top of the heading.
+      let fit: number;
+      let homeY = 0;
+      const sl = slot.current;
+      if (desktop) {
+        fit = Math.min(0.56, (0.34 * viewW) / CUBE_W);
+      } else if (sl.h > 0) {
+        const pxToWorld = viewH / height;
+        fit = Math.min(0.5, (0.62 * viewW) / CUBE_W, (sl.h * pxToWorld * 0.88) / 6.9);
+        homeY = (height / 2 - sl.cy) * pxToWorld;
+      } else {
+        fit = Math.min(0.5, (0.6 * viewW) / CUBE_W, (0.3 * viewH) / 6.9);
+      }
+      const sm = smoothed.current;
+      if (sm.fit === 0 || reducedMotion) {
+        sm.fit = fit;
+        sm.y = homeY;
+      } else {
+        sm.fit = THREE.MathUtils.damp(sm.fit, fit, 5, delta);
+        sm.y = THREE.MathUtils.damp(sm.y, homeY, 5, delta);
+      }
+
+      g.scale.setScalar(sm.fit * (1 - 0.38 * sh));
+      // scrolling glides it to the centre (behind the middle card)
       const homeX = desktop ? viewW * 0.25 : 0;
       g.position.x = THREE.MathUtils.lerp(homeX, 0, sh);
-      g.position.y = THREE.MathUtils.lerp(0, 0.1, sh) + Math.sin(t * 1.1) * 0.1 * motion;
-      if (glowMesh.current) glowMesh.current.position.x = g.position.x;
+      g.position.y = THREE.MathUtils.lerp(sm.y, 0.1, sh) + Math.sin(t * 1.1) * 0.1 * motion;
+      if (glowMesh.current) {
+        const k = sm.fit / 0.56; // floor glow follows the cube's size and height
+        glowMesh.current.position.set(g.position.x, g.position.y - 2.5 * k, 0);
+        glowMesh.current.scale.setScalar(k);
+      }
     }
     if (glowMat.current) glowMat.current.opacity = (1 - e * 0.65) * (1 - sh * 0.5);
   });
 
   return (
     <>
-      <mesh rotation-x={-Math.PI / 2} position={[0, -2.5, 0]}>
+      <mesh ref={glowMesh} rotation-x={-Math.PI / 2} position={[0, -2.5, 0]}>
         <planeGeometry args={[12, 12]} />
         <meshBasicMaterial
           ref={glowMat}

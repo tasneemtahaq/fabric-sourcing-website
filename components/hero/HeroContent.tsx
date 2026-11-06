@@ -82,7 +82,7 @@ export function HeroTitle() {
       </motion.div>
 
       <h1
-        className={`${display.className} mt-5 text-[2.4rem] font-bold leading-[1.2] tracking-tight sm:text-5xl lg:text-5xl xl:text-[3.5rem]`}
+        className={`${display.className} mt-5 text-[clamp(1.7rem,7.4vw,2.4rem)] font-bold leading-[1.2] tracking-tight max-lg:drop-shadow-[0_2px_14px_rgba(10,11,36,0.95)] sm:text-5xl lg:text-5xl xl:text-[3.5rem]`}
       >
         {lines.map((line, index) => {
           const text = reduce ? line.text : typed[index];
