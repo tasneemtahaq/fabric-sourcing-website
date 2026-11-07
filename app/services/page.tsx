@@ -20,7 +20,7 @@ const packages = [
     plans: [
       {
         name: "B2B Starter",
-        price: "Rs. 20,000",
+        price: "PKR. 20,000",
         popular: false,
         features: [
           "15-25 Pages",
@@ -38,7 +38,7 @@ const packages = [
       },
       {
         name: "B2B Business",
-        price: "Rs. 40,000",
+        price: "PKR. 40,000",
         popular: true,
         features: [
           "50 Pages",
@@ -58,7 +58,7 @@ const packages = [
       },
       {
         name: "B2B Enterprise",
-        price: "Rs. 200,000+",
+        price: "PKR. 200,000+",
         popular: false,
         features: [
           "100+ Pages",
@@ -89,7 +89,7 @@ const packages = [
     plans: [
       {
         name: "Food Starter",
-        price: "Rs. 40,000",
+        price: "PKR. 40,000",
         popular: false,
         features: [
           "Responsive Website",
@@ -112,7 +112,7 @@ const packages = [
       },
       {
         name: "Restaurant Pro",
-        price: "Rs. 80,000",
+        price: "PKR. 80,000",
         popular: true,
         features: [
           "Responsive Website",
@@ -139,7 +139,7 @@ const packages = [
       },
       {
         name: "Food Delivery Platform",
-        price: "Rs. 170,000+",
+        price: "PKR. 170,000+",
         popular: false,
         features: [
           "Unlimited Food Items",
@@ -175,7 +175,7 @@ const packages = [
     plans: [
       {
         name: "E-Commerce Starter",
-        price: "Rs. 60,000",
+        price: "PKR. 60,000",
         popular: false,
         features: [
           "Responsive E-Commerce Website",
@@ -196,7 +196,7 @@ const packages = [
       },
       {
         name: "E-Commerce Business",
-        price: "Rs. 100,000",
+        price: "PKR. 100,000",
         popular: true,
         features: [
           "Everything in Starter",
@@ -223,7 +223,7 @@ const packages = [
       },
       {
         name: "E-Commerce Advanced",
-        price: "Rs. 150,000+",
+        price: "PKR. 150,000+",
         popular: false,
         features: [
           "Everything in Business",
