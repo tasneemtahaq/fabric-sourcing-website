@@ -7,7 +7,7 @@ export default function ExportMarkets() {
     { flag: "🇺🇸", name: "United States" },
     { flag: "🇦🇪", name: "UAE" },
     { flag: "🇸🇦", name: "Saudi Arabia" },
-    { flag: "🇩🇪", name: "Africa" },
+    { flag: "🇹🇿", name: "Tanzania" },
   ];
 
   return (

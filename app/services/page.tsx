@@ -1,7 +1,7 @@
-
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -20,7 +20,8 @@ const packages = [
     plans: [
       {
         name: "B2B Starter",
-        price: "PKR. 20,000",
+        price: 20000,
+        plus: false,
         popular: false,
         features: [
           "15-25 Pages",
@@ -38,7 +39,8 @@ const packages = [
       },
       {
         name: "B2B Business",
-        price: "PKR. 40,000",
+        price: 40000,
+        plus: false,
         popular: true,
         features: [
           "50 Pages",
@@ -58,7 +60,8 @@ const packages = [
       },
       {
         name: "B2B Enterprise",
-        price: "PKR. 200,000+",
+        price: 200000,
+        plus: true,
         popular: false,
         features: [
           "100+ Pages",
@@ -89,7 +92,8 @@ const packages = [
     plans: [
       {
         name: "Food Starter",
-        price: "PKR. 40,000",
+        price: 40000,
+        plus: false,
         popular: false,
         features: [
           "Responsive Website",
@@ -112,7 +116,8 @@ const packages = [
       },
       {
         name: "Restaurant Pro",
-        price: "PKR. 80,000",
+        price: 80000,
+        plus: false,
         popular: true,
         features: [
           "Responsive Website",
@@ -139,7 +144,8 @@ const packages = [
       },
       {
         name: "Food Delivery Platform",
-        price: "PKR. 170,000+",
+        price: 170000,
+        plus: true,
         popular: false,
         features: [
           "Unlimited Food Items",
@@ -175,7 +181,8 @@ const packages = [
     plans: [
       {
         name: "E-Commerce Starter",
-        price: "PKR. 60,000",
+        price: 60000,
+        plus: false,
         popular: false,
         features: [
           "Responsive E-Commerce Website",
@@ -196,7 +203,8 @@ const packages = [
       },
       {
         name: "E-Commerce Business",
-        price: "PKR. 100,000",
+        price: 100000,
+        plus: false,
         popular: true,
         features: [
           "Everything in Starter",
@@ -223,7 +231,8 @@ const packages = [
       },
       {
         name: "E-Commerce Advanced",
-        price: "PKR. 150,000+",
+        price: 150000,
+        plus: true,
         popular: false,
         features: [
           "Everything in Business",
@@ -251,7 +260,133 @@ const packages = [
   },
 ];
 
+/* ------------------------- CURRENCY ------------------------- */
+
+type Currency = "PKR" | "USD";
+
+/** Used if the live rate can't be loaded. Update it now and then (1 USD = ? PKR). */
+const FALLBACK_RATE = 280;
+const RATE_API = "https://open.er-api.com/v6/latest/USD"; // free, no API key needed
+const STORAGE_KEY = "rubiks-currency";
+
+function formatPrice(pkr: number, plus: boolean, currency: Currency, rate: number) {
+  if (currency === "PKR") {
+    return `PKR ${pkr.toLocaleString("en-US")}${plus ? "+" : ""}`;
+  }
+  // round to the nearest $5 so prices look clean ($70, $145, $715…)
+  const usd = Math.max(5, Math.round(pkr / rate / 5) * 5);
+  return `$${usd.toLocaleString("en-US")}${plus ? "+" : ""}`;
+}
+
+/* The visitor's choice lives in localStorage (an "external store"), read with
+   useSyncExternalStore, so no setState is needed inside an effect. */
+const currencyListeners = new Set<() => void>();
+let memoryCurrency: Currency = "PKR"; // backup if storage is blocked
+
+function readCurrency(): Currency {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "USD" || saved === "PKR") return saved;
+  } catch {}
+  return memoryCurrency;
+}
+
+function subscribeCurrency(cb: () => void) {
+  currencyListeners.add(cb);
+  window.addEventListener("storage", cb); // keeps other open tabs in sync too
+  return () => {
+    currencyListeners.delete(cb);
+    window.removeEventListener("storage", cb);
+  };
+}
+
+function writeCurrency(c: Currency) {
+  memoryCurrency = c;
+  try {
+    localStorage.setItem(STORAGE_KEY, c);
+  } catch {}
+  currencyListeners.forEach((cb) => cb());
+}
+
+/** Remembers the visitor's choice and fetches today's USD → PKR rate. */
+function useCurrency() {
+  // server render always shows PKR; the browser then switches to the saved choice
+  const currency = useSyncExternalStore(subscribeCurrency, readCurrency, () => "PKR" as Currency);
+  const [rate, setRate] = useState(FALLBACK_RATE);
+  const [live, setLive] = useState(false);
+
+  useEffect(() => {
+    // setState here only runs later, inside the fetch callback, which is allowed
+    let cancelled = false;
+    fetch(RATE_API)
+      .then((res) => res.json())
+      .then((data) => {
+        const pkr = data?.rates?.PKR;
+        if (!cancelled && typeof pkr === "number" && pkr > 0) {
+          setRate(pkr);
+          setLive(true);
+        }
+      })
+      .catch(() => {
+        /* offline or API down: keep FALLBACK_RATE */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return { currency, choose: writeCurrency, rate, live };
+}
+
+/** Sliding PKR / USD switch. */
+function CurrencyToggle({
+  currency,
+  onChange,
+  id,
+}: {
+  currency: Currency;
+  onChange: (c: Currency) => void;
+  id: string;
+}) {
+  return (
+    <div
+      role="radiogroup"
+      aria-label="Show prices in"
+      className="relative inline-flex rounded-full border border-white/15 bg-white/[0.06] p-1 backdrop-blur-xl"
+    >
+      {(["PKR", "USD"] as const).map((c) => {
+        const active = currency === c;
+        return (
+          <button
+            key={c}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            onClick={() => onChange(c)}
+            className={`relative z-10 flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${
+              active ? "text-white" : "text-white/55 hover:text-white/85"
+            }`}
+          >
+            {active && (
+              <motion.span
+                layoutId={`currency-pill-${id}`}
+                transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-cyan-400 via-sky-500 to-purple-500 shadow-[0_0_20px_rgba(56,189,248,0.35)]"
+              />
+            )}
+            <span aria-hidden>{c === "PKR" ? "₨" : "$"}</span>
+            {c}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function ServicesPage() {
+  const { currency, choose, rate, live } = useCurrency();
+  const rateNote = `1 USD ≈ PKR ${Math.round(rate).toLocaleString("en-US")}${live ? " · today's rate" : ""}`;
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#050a1c] text-white">
 
@@ -307,11 +442,32 @@ export default function ServicesPage() {
             we build digital experiences designed for growth.
           </motion.p>
 
+          {/* CURRENCY SWITCH */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.8 }}
+            className="mt-9 flex flex-wrap items-center gap-4"
+          >
+            <span className="text-xs uppercase tracking-[0.2em] text-white/45">Show prices in</span>
+            <CurrencyToggle currency={currency} onChange={choose} id="hero" />
+            <span className="text-xs text-white/35">{rateNote}</span>
+          </motion.div>
+
         </div>
       </section>
 
       {/* PACKAGES SECTION */}
       <section className="relative px-6 pb-24 lg:px-12">
+
+        {/* floating switch that stays visible while scrolling through the packages */}
+        <div className="pointer-events-none sticky top-24 z-30 mb-10 flex justify-end">
+          <div className="pointer-events-auto mx-auto flex w-full max-w-7xl justify-end">
+            <div className="rounded-full bg-[#050a1c]/70 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl">
+              <CurrencyToggle currency={currency} onChange={choose} id="sticky" />
+            </div>
+          </div>
+        </div>
 
         <div className="mx-auto max-w-7xl">
 
@@ -393,11 +549,26 @@ export default function ServicesPage() {
                           {plan.name}
                         </h3>
 
-                        <div className="mt-5">
-                          <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-3xl font-semibold tracking-tight text-transparent">
-                            {plan.price}
-                          </span>
+                        <div className="mt-5 h-10 overflow-hidden" aria-live="polite">
+                          <AnimatePresence mode="wait" initial={false}>
+                            <motion.span
+                              key={currency}
+                              initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+                              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                              exit={{ opacity: 0, y: -24, filter: "blur(6px)" }}
+                              transition={{ duration: 0.35, ease: "easeOut" }}
+                              className="inline-block bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-3xl font-semibold tracking-tight text-transparent"
+                            >
+                              {formatPrice(plan.price, plan.plus, currency, rate)}
+                            </motion.span>
+                          </AnimatePresence>
                         </div>
+                        {currency === "USD" && (
+                          <p className="mt-1 text-[11px] text-white/35">
+                            ≈ PKR {plan.price.toLocaleString("en-US")}
+                            {plan.plus ? "+" : ""} · approx.
+                          </p>
+                        )}
 
                       </div>
 
